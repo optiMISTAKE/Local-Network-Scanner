@@ -13,25 +13,38 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical">
-            <Label Content="Skaner Sieci Lokalnej" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="24"/>
+            <Label Content="Skaner Sieci Lokalnej" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Black" FontSize="36"/>
+
+            <Label Content="Wybierz interfejs sieciowy:"
+                   HorizontalAlignment="Left"
+                   Margin="0,10,0,0"
+                   FontSize="20"
+                   FontWeight="Bold"/>
             <ComboBox ItemsSource="{Binding AvailableNetworkInterfaces}"
                       DisplayMemberPath="DisplayNetworkName"
                       SelectedItem="{Binding CurrentlySetNetInterface}"
                       Width="300"
-                      HorizontalAlignment="Left"/>
+                      HorizontalAlignment="Left"
+                      Margin="5,10,0,10"/>
 
             <!-- Scan button -->
-            <Button Content="SCAN"
+            <Button Content="Skanuj Sieć"
                     Width="120"
                     Height="35"
                     HorizontalAlignment="Left"
-                    Command="{Binding ScanCommand}" />
+                    FontWeight="Medium"
+                    FontSize="16"
+                    Margin="5,5,0,5"
+                    Command="{Binding ScanCommand}"/>
 
             <!--DELETE LATER-->
-            <Button Content="Test button"
+            <Button Content="Test OUI"
                     Width="120"
                     Height="35"
                     HorizontalAlignment="Left"
+                    FontWeight="Medium"
+                    FontSize="16"
+                    Margin="5,5,0,5"
                     Command="{Binding TestOUI}" />
         </StackPanel>
         
@@ -51,7 +64,7 @@
                                     Width="*"/>
 
                 <DataGridTextColumn Header="Alive"
-                                    Binding="{Binding IsAlive}"
+                                    Binding="{Binding IsActiveDisplay}"
                                     Width="70"/>
 
                 <DataGridTextColumn Header=" MAC "
@@ -67,7 +80,7 @@
                                     Width="*"/>
 
                 <DataGridTextColumn Header="Open Ports"
-                                    Binding="{Binding OpenPorts}"
+                                    Binding="{Binding OpenPortsDisplay}"
                                     Width="*"/>
 
                 <DataGridTextColumn Header="Banner"

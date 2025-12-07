@@ -91,7 +91,7 @@ namespace Local_Network_Scaner.ViewModel
             OuiRecord record = _ouiDb.GetVendor(testMac);
             if (record != null)
             {
-                MessageBox.Show($"Vendor for MAC {testMac} is {record.Vendor}, at {record.Address}");
+                MessageBox.Show($"Producentem urzadzenia o MAC {testMac} jest {record.Vendor}\nAdres: {record.Address}");
             }
             else
             {
