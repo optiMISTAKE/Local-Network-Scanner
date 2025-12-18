@@ -17,6 +17,7 @@ namespace Local_Network_Scanner.Services
         private readonly SimplePingService _pingService = new SimplePingService();
         private readonly ArpService _arpService = new ArpService();
         private readonly TcpConnectActiveService _tcpConnectService = new TcpConnectActiveService();
+        private readonly ReverseDnsService _reverseDnsService = new ReverseDnsService();
 
         // Parameterless constructor to load OUI database
         public ScanService()
@@ -30,18 +31,31 @@ namespace Local_Network_Scanner.Services
 
             _ouiDb.LoadDatabaseCSV(path);
         }
-        public async Task ScanSubnetAsync(string baseIp, IProgress<DeviceInfo> progress)
+        public async Task ScanSubnetAsync(string currentIp, string[] maskParts, IProgress<DeviceInfo> progress, IProgress<int> scanProgress)
         {
+            int scannedCount = 0;
             int maxConcurrency = 50;
             using var sem = new SemaphoreSlim(maxConcurrency);
 
             var tasks = new List<Task>();
 
-            for (int i = 1; i <= 254; i++)
+            (int[] firstIp, int[] endIp) = IpRangeService.GetIpRange(currentIp, maskParts);
+            Debug.WriteLine($"Scanning IP range: {string.Join('.', firstIp)} - {string.Join('.', endIp)}");
+
+            uint start = HelperIpConverter.IpToUInt(firstIp);
+            uint end = HelperIpConverter.IpToUInt(endIp);
+
+            uint totalHosts = end - start + 1;
+
+            if (totalHosts > 10000)
+                throw new InvalidOperationException("Subnet too large to scan safely.");
+            // TO-DO: allow user to decide whether to proceed or not.
+
+            for (uint ip = start; ip <= end; ip++)
             {
-                string ipAddress = $"{baseIp}.{i}";
+                string ipAddress = HelperIpConverter.UIntToIp(ip);
                 Debug.WriteLine($"Scanning {ipAddress}");
-                
+
                 await sem.WaitAsync();
 
                 tasks.Add(Task.Run(async () =>
@@ -56,6 +70,8 @@ namespace Local_Network_Scanner.Services
                     }
                     finally
                     {
+                        Interlocked.Increment(ref scannedCount);
+                        scanProgress.Report(scannedCount);
                         sem.Release();
                     }
                 }));
@@ -77,7 +93,13 @@ namespace Local_Network_Scanner.Services
                 device.IsActive = await _pingService.PingAsync(ipAddress, 1000);
             }
 
-            // 2. Get MAC Address and Vendor
+            // 2. Reverse DNS Lookup
+            if (device.IsActive)
+            {
+                device.HostName = await _reverseDnsService.TryGetHostname(ipAddress, 500);
+            }
+
+            // 3. Get MAC Address and Vendor
 
             string? hostMacAddress = _arpService.GetMacAddress(ipAddress);
             device.MACAddress = hostMacAddress;
@@ -92,7 +114,7 @@ namespace Local_Network_Scanner.Services
                 }
             }
 
-            // 3. TCP Connect Scan
+            // 4. TCP Connect Scan
 
             //foreach (var port in new TcpConnectActiveService().CommonPorts)
             //{
@@ -136,9 +158,6 @@ namespace Local_Network_Scanner.Services
             await Task.WhenAll(tasks);
 
             return device;
-
-            // 4. Reverse DNS Lookup
-            // ...
 
         }
     }

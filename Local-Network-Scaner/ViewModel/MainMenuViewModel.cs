@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Net;
 using System.Xml.Linq;
 using System.Windows;
+using System.Diagnostics;
 
 namespace Local_Network_Scanner.ViewModel
 {
@@ -22,6 +23,8 @@ namespace Local_Network_Scanner.ViewModel
         private readonly ViewModelFactory _viewModelFactory;
         private readonly ScanService _scanService = new ScanService();
         private readonly NetworkInterfaceService _networkInterfaceService = new NetworkInterfaceService();
+        private int _scannedDevicesCount;
+        private int _totalHostsToScan;
 
         // !!! - ACTIVATE OR DELETE LATER
         //private readonly OuiDatabaseService _ouiDb = new OuiDatabaseService();
@@ -32,27 +35,58 @@ namespace Local_Network_Scanner.ViewModel
         public ObservableCollection<LocalNetworksInfo> AvailableNetworkInterfaces { get; } = new ObservableCollection<LocalNetworksInfo>();
         public LocalNetworksInfo CurrentlySetNetInterface { get; set; }
 
+        public int ScannedDevicesCount
+        {
+            get => _scannedDevicesCount;
+            set
+            {
+                _scannedDevicesCount = value;
+                OnPropertyChanged(nameof(ScannedDevicesCount));
+                OnPropertyChanged(nameof(ScanProgressPercent));
+            }
+        }
+
+        public int TotalHostsToScan
+        {
+            get => _totalHostsToScan;
+            set
+            {
+                _totalHostsToScan = value;
+                OnPropertyChanged(nameof(TotalHostsToScan));
+                OnPropertyChanged(nameof(ScanProgressPercent));
+            }
+        }
+
+        public int ScanProgressPercent => TotalHostsToScan == 0 ? 0 : (int)((double)ScannedDevicesCount / TotalHostsToScan * 100);
+
+
         // COMMANDS
 
         public ICommand ScanCommand => new RelayCommand(async () =>
         {
             if (CurrentlySetNetInterface == null) return;
 
-            string baseIp = CurrentlySetNetInterface.NetworkAddress;
-
-            var parts = baseIp.Split('.');
-            if (parts.Length != 4) ; // TO-DO: handle error. Do throw exception or smth
-
-            string subnetBase = $"{parts[0]}.{parts[1]}.{parts[2]}";
+            string currentIp = CurrentlySetNetInterface.IPv4Address;
+            string[] maskParts = CurrentlySetNetInterface.SubnetMask.Split('.');
 
             Devices.Clear();
+            ScannedDevicesCount = 0;
+            TotalHostsToScan = 0;
 
-            var progress = new Progress<DeviceInfo>(device =>
+            var deviceProgress = new Progress<DeviceInfo>(device =>
             {
                 Devices.Add(device);
             });
 
-            await _scanService.ScanSubnetAsync(subnetBase, progress);
+            var scanProgress = new Progress<int>(scannedCount =>
+            {
+                ScannedDevicesCount = scannedCount;
+            });
+
+            var (firstIp, endIp) = IpRangeService.GetIpRange(currentIp, maskParts);
+            TotalHostsToScan = (int)(HelperIpConverter.IpToUInt(endIp) - HelperIpConverter.IpToUInt(firstIp) + 1);
+
+            await _scanService.ScanSubnetAsync(currentIp, maskParts, deviceProgress, scanProgress);
         });
         public ICommand LoadNetworkInterfacesCommand => new RelayCommand(LoadNetworkInterfaces);
 

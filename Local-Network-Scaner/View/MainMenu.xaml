@@ -46,9 +46,23 @@
                     FontSize="16"
                     Margin="5,5,0,5"
                     Command="{Binding TestOUI}" />
+
+            <StackPanel Grid.Row="0" Margin="10">
+
+                <ProgressBar
+                    Height="20"
+                    Minimum="0"
+                    Maximum="100"
+                    Value="{Binding ScanProgressPercent, Mode=OneWay}"/>
+
+                <TextBlock
+                    Text="{Binding ScanProgressPercent, StringFormat=Scanning... {0}%, Mode=OneWay}"
+                    HorizontalAlignment="Center"
+                    Margin="0,5,0,0"/>
+
+            </StackPanel>
+
         </StackPanel>
-        
-        
 
         <!-- DataGrid to show results -->
         <DataGrid Grid.Row="1"
