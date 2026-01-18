@@ -253,6 +253,20 @@
                         Command="{Binding ChangeLanguageCommand}" 
                         CommandParameter="uk"
                         Style="{StaticResource SecondaryButton}"/>
+                <Button Content="RU" 
+                        Width="70"
+                        Height="45"
+                        Margin="5" 
+                        Command="{Binding ChangeLanguageCommand}" 
+                        CommandParameter="ru"
+                        Style="{StaticResource SecondaryButton}"/>
+                <Button Content="NO" 
+                        Width="70"
+                        Height="45"
+                        Margin="5" 
+                        Command="{Binding ChangeLanguageCommand}" 
+                        CommandParameter="no"
+                        Style="{StaticResource SecondaryButton}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

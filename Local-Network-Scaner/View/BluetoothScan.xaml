@@ -105,7 +105,7 @@
         </Grid.Background>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="285"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -335,7 +335,7 @@
                             </GridViewColumn>
 
                             <GridViewColumn Header="{DynamicResource Bt_Col_Signal}" 
-                                            Width="135">
+                                            Width="145">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

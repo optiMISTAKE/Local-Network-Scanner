@@ -23,6 +23,12 @@ namespace Local_Network_Scanner.Services
                 case "uk":
                     dict.Source = new Uri("Resources/Languages/StringResources.uk.xaml", UriKind.Relative);
                     break;
+                case "ru":
+                    dict.Source = new Uri("Resources/Languages/StringResources.ru.xaml", UriKind.Relative);
+                    break;
+                case "no":
+                    dict.Source = new Uri("Resources/Languages/StringResources.no.xaml", UriKind.Relative);
+                    break;
                 default:
                     dict.Source = new Uri("Resources/Languages/StringResources.en.xaml", UriKind.Relative);
                     break;
