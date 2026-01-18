@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Local_Network_Scanner.Model;
+using Local_Network_Scanner.Services;
+using Local_Network_Scanner.ViewModel.Base;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Local_Network_Scanner.ViewModel.Base;
-using Local_Network_Scanner.Services;
-using System.Collections.ObjectModel;
-using Local_Network_Scanner.Model;
 using System.Windows.Input;
+using Windows.Devices.Radios;
 
 namespace Local_Network_Scanner.ViewModel
 {
@@ -19,6 +21,7 @@ namespace Local_Network_Scanner.ViewModel
         private readonly BluetoothScanService _bluetoothScanService;
         private ScanSpeedPreset _selectedScanSpeedPreset = ScanSpeedPreset.Normal;
         private CancellationTokenSource? _bluetoothScanCts;
+        private DialogService _dialogService = new DialogService();
 
         // PUBLIC PROPERTIES, AVAILABLE FOR DATA BINDING
         public ObservableCollection<BluetoothDeviceInfo> BluetoothDevices { get; } = new ObservableCollection<BluetoothDeviceInfo>();
@@ -65,7 +68,7 @@ namespace Local_Network_Scanner.ViewModel
         }
 
         // METHODS
-        private void StartScan()
+        private async Task StartScan()
         {
             _bluetoothScanCts = new CancellationTokenSource();
             var speed = SelectedScanSpeedPreset;
@@ -73,6 +76,28 @@ namespace Local_Network_Scanner.ViewModel
             if(!Enum.IsDefined(typeof(ScanSpeedPreset), speed))
             {
                 speed = ScanSpeedPreset.Normal;
+            }
+
+            bool isBluetoothEnabled = await _bluetoothScanService.IsBluetoothEnabledAsync();
+            if (!isBluetoothEnabled)
+            {
+                bool openSettings = _dialogService.ShowConfirmation(
+                    "Bluetooth is disabled",
+                    "Bluetooth is currently turned off.\n\n" +
+                    "To scan for Bluetooth devices, Bluetooth must be enabled.\n\n" +
+                    "Do you want to open Bluetooth settings now?"
+                );
+
+                if (openSettings)
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "ms-settings:bluetooth",
+                        UseShellExecute = true
+                    });
+                }
+
+                return;
             }
 
             _bluetoothScanService.Start(speed, _bluetoothScanCts.Token);

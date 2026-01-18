@@ -13,6 +13,17 @@
 
   <ItemGroup>
     <None Remove="Resources\bluetooth-16-bit-uuids-2022-05-19.csv" />
+    <None Remove="Resources\Fonts\OpenDyslexic-Bold-Italic.otf" />
+    <None Remove="Resources\Fonts\OpenDyslexic-Bold.otf" />
+    <None Remove="Resources\Fonts\OpenDyslexic-Italic.otf" />
+    <None Remove="Resources\Fonts\OpenDyslexic-Regular.otf" />
+    <None Remove="Resources\Icons\bluetoothIcon.png" />
+    <None Remove="Resources\Icons\robot.png" />
+    <None Remove="Resources\Icons\sparkles.png" />
+    <None Remove="Resources\OpenDyslexic-Bold-Italic.otf" />
+    <None Remove="Resources\OpenDyslexic-Bold.otf" />
+    <None Remove="Resources\OpenDyslexic-Italic.otf" />
+    <None Remove="Resources\OpenDyslexic-Regular.otf" />
     <None Remove="Resources\oui.csv" />
   </ItemGroup>
 
@@ -23,6 +34,30 @@
     <Content Include="Resources\oui.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\OpenDyslexic-Bold-Italic.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\OpenDyslexic-Bold.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\OpenDyslexic-Italic.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\OpenDyslexic-Regular.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\bluetoothIcon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\robot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\sparkles.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

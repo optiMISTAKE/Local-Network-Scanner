@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Local_Network_Scanner.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.Advertisement;
-using Local_Network_Scanner.Model;
-using System.Runtime.InteropServices;
+using Windows.Devices.Radios;
 
 namespace Local_Network_Scanner.Services
 {
@@ -103,6 +104,13 @@ namespace Local_Network_Scanner.Services
                     _watcher.SignalStrengthFilter.SamplingInterval = TimeSpan.FromSeconds(1);
                     break;
             }
+        }
+
+        public async Task<bool> IsBluetoothEnabledAsync()
+        {
+            var radios = await Radio.GetRadiosAsync();
+            var bluetoothRadio = radios.FirstOrDefault(r => r.Kind == RadioKind.Bluetooth);
+            return bluetoothRadio != null && bluetoothRadio.State == RadioState.On;
         }
 
         public void Dispose() => Stop();

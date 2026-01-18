@@ -3,11 +3,144 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Local_Network_Scanner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Local Network Scanner" 
+        Height="720" 
+        Width="1280"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
 
-    <Grid>
-        <ContentControl Content="{Binding CurrentViewModel}"/>
-    </Grid>
+    <Window.Resources>
+        <!-- Fade In Animation for Views -->
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0" To="1"
+                             Duration="0:0:0.3"
+                             AccelerationRatio="0.3"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Border Background="{StaticResource Background50}"
+            CornerRadius="15"
+            BorderBrush="{StaticResource Primary500}"
+            BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect Color="#00b4d8" 
+                              BlurRadius="30" 
+                              ShadowDepth="0" 
+                              Opacity="0.3"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Custom Title Bar -->
+            <Border Grid.Row="0"
+                    Background="{StaticResource DeepTwilight}"
+                    CornerRadius="15,15,0,0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- App Title -->
+                    <StackPanel Orientation="Horizontal" 
+                                VerticalAlignment="Center"
+                                Margin="15,0,0,0">
+                        <Image Source="/Resources/Icons/sparkles.png"
+                               Width="30"
+                               Height="30"
+                               Stretch="Uniform"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"/>
+                        <TextBlock Text="Local Network Scanner"
+                                   Foreground="White"
+                                   FontSize="{DynamicResource BaseFontSize}"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Window Controls -->
+                    <StackPanel Grid.Column="1" 
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Button Content="—"
+                                Width="40" Height="40"
+                                FontSize="16"
+                                Click="MinimizeButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#023e8a"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Content="×"
+                                Width="40" Height="40"
+                                FontSize="20"
+                                Click="CloseButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="0,15,0,0">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#D32F2F"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Content Area -->
+            <ContentControl Grid.Row="1" 
+                            Content="{Binding CurrentViewModel}">
+                <ContentControl.Triggers>
+                    <EventTrigger RoutedEvent="ContentControl.Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
+                    </EventTrigger>
+                </ContentControl.Triggers>
+            </ContentControl>
+        </Grid>
+    </Border>
 </Window>

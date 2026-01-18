@@ -2,27 +2,247 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Local_Network_Scanner.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="AliceBlue">
+             d:DesignHeight="720" d:DesignWidth="1280">
 
-        <StackPanel Orientation="Vertical">
-            
-            <Label Content="Skaner Sieci Lokalnej" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+    <UserControl.Resources>
+        <!-- Card Style for Menu Items -->
+        <Style x:Key="MenuCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="30"/>
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#90e0ef" BlurRadius="0" ShadowDepth="0" Opacity="0"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Effect).(DropShadowEffect.BlurRadius)"
+                                                 To="20"
+                                                 Duration="0:0:0.3"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Effect).(DropShadowEffect.Opacity)"
+                                                 To="0.5"
+                                                 Duration="0:0:0.3"/>
+                                <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                    To="15,10,15,20"
+                                                    Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Effect).(DropShadowEffect.BlurRadius)"
+                                                 To="0"
+                                                 Duration="0:0:0.3"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Effect).(DropShadowEffect.Opacity)"
+                                                 To="0"
+                                                 Duration="0:0:0.3"/>
+                                <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                    To="15"
+                                                    Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
-            <Button Content="Przejdź do głównego skanera"
-                Width="200" Height="50"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"
-                Command="{Binding NavigateToMainScanCommand}"/>
+    <Grid>
+        <!-- Gradient Background -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#e8f9fc" Offset="0"/>
+                <GradientStop Color="#d2f3f9" Offset="0.5"/>
+                <GradientStop Color="#caf0f8" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-            <Button Content="Przejdź do skanowania Bluetooth"
-                Width="200" Height="50"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"
-                Command="{Binding NavigateToBluetoothScanningCommand}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,30,0,20">
+            <!-- App Icon/Logo -->
+            <Ellipse Width="80" Height="80"
+                     Margin="0,0,0,20"
+                     HorizontalAlignment="Center">
+                <Ellipse.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#0077b6" Offset="0"/>
+                        <GradientStop Color="#00b4d8" Offset="1"/>
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+                <Ellipse.Effect>
+                    <DropShadowEffect Color="#48cae4" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                </Ellipse.Effect>
+            </Ellipse>
+
+            <TextBlock Text="{DynamicResource Menu_Title}" 
+                       HorizontalAlignment="Center"
+                       FontSize="{DynamicResource HugeFontSize}"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource DeepTwilight}"
+                       Margin="0,0,0,10">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#90e0ef" BlurRadius="8" ShadowDepth="0" Opacity="0.4"/>
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <TextBlock Text="Discover and analyze your network"
+                       HorizontalAlignment="Center"
+                       FontSize="{DynamicResource MediumFontSize}"
+                       Foreground="{StaticResource FrenchBlue}"
+                       Opacity="0.8"/>
         </StackPanel>
 
+        <!-- Menu Items Grid -->
+        <Grid Grid.Row="1" Margin="80,10,80,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Network Scan Card -->
+            <Border Grid.Column="0"
+                    Style="{StaticResource MenuCard}">
+                <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftClick" 
+                                  Command="{Binding NavigateToMainScanCommand}"/>
+                </Border.InputBindings>
+                <StackPanel>
+                    <!-- Icon -->
+                    <Border Width="60" Height="60"
+                            CornerRadius="30"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,20">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#00a6ff" Offset="0"/>
+                                <GradientStop Color="#0077b6" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Image Source="/Resources/Icons/robot.png"
+                               Width="30"
+                               Height="30"
+                               Stretch="Uniform"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    </Border>
+
+                    <TextBlock Text="{DynamicResource Menu_MainScan}"
+                               FontSize="{DynamicResource LargeFontSize}"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource Text800}"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Scan local network for devices and services"
+                               FontSize="{DynamicResource BaseFontSize}"
+                               Foreground="{StaticResource Text800}"
+                               Opacity="0.7"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Bluetooth Scan Card -->
+            <Border Grid.Column="1"
+                    Style="{StaticResource MenuCard}">
+                <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftClick" 
+                                  Command="{Binding NavigateToBluetoothScanningCommand}"/>
+                </Border.InputBindings>
+                <StackPanel>
+                    <!-- Icon -->
+                    <Border Width="60" Height="60"
+                            CornerRadius="30"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,20">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#20c2df" Offset="0"/>
+                                <GradientStop Color="#0096c7" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Image Source="/Resources/Icons/bluetoothIcon.png"
+                               Width="30"
+                               Height="30"
+                               Stretch="Uniform"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    </Border>
+
+                    <TextBlock Text="{DynamicResource Menu_Bluetooth}"
+                               FontSize="{DynamicResource LargeFontSize}"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource Text800}"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Discover nearby Bluetooth devices"
+                               FontSize="{DynamicResource BaseFontSize}"
+                               Foreground="{StaticResource Text800}"
+                               Opacity="0.7"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Bottom Controls -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,30">
+            <!-- Font Toggle -->
+            <Button Content="{DynamicResource Menu_ToggleFont}"
+                    Command="{Binding ToggleDyslexicFontCommand}" 
+                    Width="250" 
+                    Height="45" 
+                    Margin="0,0,0,10"
+                    Style="{StaticResource SecondaryButton}"/>
+
+            <!-- Language Selection -->
+            <TextBlock Text="{DynamicResource Menu_LanguageLabel}" 
+                       HorizontalAlignment="Center" 
+                       FontSize="{DynamicResource BaseFontSize}"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource Text800}"
+                       Margin="0,0,0,5"/>
+
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                <Button Content="EN" 
+                        Width="70" 
+                        Height="45"
+                        Margin="5" 
+                        Command="{Binding ChangeLanguageCommand}" 
+                        CommandParameter="en"
+                        Style="{StaticResource SecondaryButton}"/>
+                <Button Content="PL" 
+                        Width="70"
+                        Height="45"
+                        Margin="5" 
+                        Command="{Binding ChangeLanguageCommand}" 
+                        CommandParameter="pl"
+                        Style="{StaticResource SecondaryButton}"/>
+                <Button Content="UA" 
+                        Width="70"
+                        Height="45"
+                        Margin="5" 
+                        Command="{Binding ChangeLanguageCommand}" 
+                        CommandParameter="uk"
+                        Style="{StaticResource SecondaryButton}"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

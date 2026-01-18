@@ -143,6 +143,7 @@ namespace Local_Network_Scanner.ViewModel
         public ICommand LoadNetworkInterfacesCommand => new RelayCommand(LoadNetworkInterfaces);
 
         public ICommand NavigateToBluetoothScanningCommand { get; }
+        public ICommand NavigateToMainMenuCommand { get; }
 
         // !!! - ACTIVATE OR DELETE LATER
         // public ICommand TestOUI => new RelayCommand(TestOUIDatabase);
@@ -156,6 +157,9 @@ namespace Local_Network_Scanner.ViewModel
 
             NavigateToBluetoothScanningCommand = new RelayCommand(_ =>
             _navigationService.NavigateTo(_viewModelFactory.CreateBluetoothScanVM()), _ => true);
+
+            NavigateToMainMenuCommand = new RelayCommand(_ =>
+            _navigationService.NavigateTo(_viewModelFactory.CreateMainMenuVM()), _ => true);
 
             LoadNetworkInterfaces();
         }
