@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <sys:String x:Key="App_Title">Сканер локальної мережі</sys:String>
+    <sys:String x:Key="App_Title">Сканер Локальної Мережі</sys:String>
     <sys:String x:Key="App_Subtitle">Досліджуйте та аналізуйте свою мережу</sys:String>
 
-    <sys:String x:Key="Menu_Title">Сканер локальної мережі</sys:String>
-    <sys:String x:Key="Menu_Authors">Автори: X, Y, Z</sys:String>
+    <sys:String x:Key="Menu_Title">Сканер Локальної Мережі</sys:String>
+    <sys:String x:Key="Menu_Authors">Автори: Maksym Taran, Kacper Manterys, Grzegorz Ignasiak</sys:String>
     <sys:String x:Key="Menu_MainScan">Перейти до сканера</sys:String>
     <sys:String x:Key="Menu_MainScanDesc">Сканування мережі на наявність пристроїв і служб</sys:String>
     <sys:String x:Key="Menu_Bluetooth">Сканування Bluetooth</sys:String>
@@ -28,7 +28,7 @@
     <sys:String x:Key="Bt_Stop">Зупинити скан</sys:String>
     <sys:String x:Key="Bt_Discovered">Знайдені Пристрої</sys:String>
 
-    <sys:String x:Key="Bt_Col_Name">Назва Пристрою</sys:String>
+    <sys:String x:Key="Bt_Col_Name">Назва</sys:String>
     <sys:String x:Key="Bt_Col_Mac">MAC Адреса</sys:String>
     <sys:String x:Key="Bt_Col_Signal">Сигнал (RSSI)</sys:String>
     <sys:String x:Key="Bt_Col_Services">Сервіси</sys:String>
@@ -42,7 +42,7 @@
     <sys:String x:Key="Net_Col_Mac">MAC Адреса</sys:String>
     <sys:String x:Key="Net_Col_Vendor">Виробник</sys:String>
     <sys:String x:Key="Net_Col_Hostname">Назва Хоста</sys:String>
-    <sys:String x:Key="Net_Col_Ports">Відкриті Порти</sys:String>
+    <sys:String x:Key="Net_Col_Ports">Порти</sys:String>
     <sys:String x:Key="Net_Col_Banner">Інформація банеру</sys:String>
 
     <sys:String x:Key="Alert_BtDisabled_Title">Bluetooth вимкнено</sys:String>

@@ -6,7 +6,7 @@
     <sys:String x:Key="App_Subtitle">Odkrywaj i analizuj swoją sieć</sys:String>
 
     <sys:String x:Key="Menu_Title">Skaner Sieci Lokalnej</sys:String>
-    <sys:String x:Key="Menu_Authors">Autorzy: X, Y, Z</sys:String>
+    <sys:String x:Key="Menu_Authors">Autorzy: Maksym Taran, Kacper Manterys, Grzegorz Ignasiak</sys:String>
     <sys:String x:Key="Menu_MainScan">Przejdź do głównego skanera</sys:String>
     <sys:String x:Key="Menu_MainScanDesc">Skanuj sieć lokalną w poszukiwaniu urządzeń</sys:String>
     <sys:String x:Key="Menu_Bluetooth">Przejdź do skanowania Bluetooth</sys:String>

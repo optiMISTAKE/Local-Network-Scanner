@@ -6,7 +6,7 @@
     <sys:String x:Key="App_Subtitle">Avslør og analyser nettverket ditt</sys:String>
 
     <sys:String x:Key="Menu_Title">Lokal Nettverksskanner</sys:String>
-    <sys:String x:Key="Menu_Authors">Av: X, Y, Z</sys:String>
+    <sys:String x:Key="Menu_Authors">Av: Maksym Taran, Kacper Manterys, Grzegorz Ignasiak</sys:String>
     <sys:String x:Key="Menu_MainScan">Gå til hovedskanner</sys:String>
     <sys:String x:Key="Menu_MainScanDesc">Skann lokalt nettverk for enheter og tjenester</sys:String>
     <sys:String x:Key="Menu_Bluetooth">Gå til Bluetooth-skanning</sys:String>

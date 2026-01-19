@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <sys:String x:Key="App_Title">Сканер локальной сети</sys:String>
-    <sys:String x:Key="App_Subtitle">Раскройте и проанализируйте свою сеть</sys:String>
+    <sys:String x:Key="App_Title">Сканер Локальной Сети</sys:String>
+    <sys:String x:Key="App_Subtitle">Изучите и проанализируйте свою сеть</sys:String>
 
-    <sys:String x:Key="Menu_Title">Сканер локальной сети</sys:String>
-    <sys:String x:Key="Menu_Authors">Авторы: X, Y, Z</sys:String>
+    <sys:String x:Key="Menu_Title">Сканер Локальной Сети</sys:String>
+    <sys:String x:Key="Menu_Authors">Авторы: Maksym Taran, Kacper Manterys, Grzegorz Ignasiak</sys:String>
     <sys:String x:Key="Menu_MainScan">Перейти к сканеру</sys:String>
     <sys:String x:Key="Menu_MainScanDesc">Сканирование локальной сети на наличие устройств и служб</sys:String>
     <sys:String x:Key="Menu_Bluetooth">Сканирование Bluetooth</sys:String>
@@ -24,25 +24,25 @@
     <sys:String x:Key="Common_MainMenu">Главное меню</sys:String>
 
     <sys:String x:Key="Bt_Title">Сканер Bluetooth</sys:String>
-    <sys:String x:Key="Bt_Start">Начать сканирование Bluetooth</sys:String>
-    <sys:String x:Key="Bt_Stop">Остановить сканирование</sys:String>
+    <sys:String x:Key="Bt_Start">Начать скан</sys:String>
+    <sys:String x:Key="Bt_Stop">Остановить скан</sys:String>
     <sys:String x:Key="Bt_Discovered">Обнаруженные устройства</sys:String>
 
-    <sys:String x:Key="Bt_Col_Name">Имя устройства</sys:String>
+    <sys:String x:Key="Bt_Col_Name">Название</sys:String>
     <sys:String x:Key="Bt_Col_Mac">MAC-адрес</sys:String>
     <sys:String x:Key="Bt_Col_Signal">Сигнал (RSSI)</sys:String>
     <sys:String x:Key="Bt_Col_Services">Службы</sys:String>
 
     <sys:String x:Key="Net_Title">Сетевой сканер</sys:String>
     <sys:String x:Key="Net_Interface">Сетевой интерфейс:</sys:String>
-    <sys:String x:Key="Net_Btn_Bluetooth">Сканирование Bluetooth</sys:String>
+    <sys:String x:Key="Net_Btn_Bluetooth">Скан Bluetooth</sys:String>
 
     <sys:String x:Key="Net_Col_IP">IP-адрес</sys:String>
     <sys:String x:Key="Net_Col_Status">Статус</sys:String>
     <sys:String x:Key="Net_Col_Mac">MAC-адрес</sys:String>
     <sys:String x:Key="Net_Col_Vendor">Производитель</sys:String>
     <sys:String x:Key="Net_Col_Hostname">Имя хоста</sys:String>
-    <sys:String x:Key="Net_Col_Ports">Открытые порты</sys:String>
+    <sys:String x:Key="Net_Col_Ports">Порты</sys:String>
     <sys:String x:Key="Net_Col_Banner">Информация о баннере</sys:String>
 
     <sys:String x:Key="Alert_BtDisabled_Title">Bluetooth выключен</sys:String>

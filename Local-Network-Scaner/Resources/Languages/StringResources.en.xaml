@@ -6,7 +6,7 @@
     <sys:String x:Key="App_Subtitle">Reveal and analyze your network</sys:String>
 
     <sys:String x:Key="Menu_Title">Local Network Scanner</sys:String>
-    <sys:String x:Key="Menu_Authors">By: X, Y, Z</sys:String>
+    <sys:String x:Key="Menu_Authors">By: Maksym Taran, Kacper Manterys, Grzegorz Ignasiak</sys:String>
     <sys:String x:Key="Menu_MainScan">Go to Main Scanner</sys:String>
     <sys:String x:Key="Menu_MainScanDesc">Scan local network for devices and services</sys:String>
     <sys:String x:Key="Menu_Bluetooth">Go to Bluetooth Scanning</sys:String>
