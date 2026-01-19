@@ -10,7 +10,7 @@
     <sys:String x:Key="Menu_MainScan">Gå til hovedskanner</sys:String>
     <sys:String x:Key="Menu_MainScanDesc">Skann lokalt nettverk for enheter og tjenester</sys:String>
     <sys:String x:Key="Menu_Bluetooth">Gå til Bluetooth-skanning</sys:String>
-    <sys:String x:Key="Menu_BluetoothDesc">Oppdag Bluetooth-enheter i nærheten</sys:String>
+    <sys:String x:Key="Menu_BluetoothDesc">Finn Bluetooth-enheter i nærheten</sys:String>
     <sys:String x:Key="Menu_ToggleFont">Bytt dyslektisk font</sys:String>
     <sys:String x:Key="Menu_LanguageLabel">Endre språk:</sys:String>
 
