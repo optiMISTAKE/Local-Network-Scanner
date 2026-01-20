@@ -17,6 +17,7 @@ namespace Local_Network_Scanner.Services
         private readonly BluetoothUuidService _bluetoothUuidService = new BluetoothUuidService();
         private BluetoothLEAdvertisementWatcher? _watcher;
         private CancellationTokenSource? _cts;
+        private readonly OuiDatabaseService _ouiDb = new OuiDatabaseService();
 
         public event Action<BluetoothDeviceInfo>? DeviceFound;
         public bool IsScanning => _watcher != null;
@@ -24,14 +25,21 @@ namespace Local_Network_Scanner.Services
         // Parameterless constructor to load Bluetooth UUID database
         public BluetoothScanService()
         {
-            // Load the OUI database on initialization
-            string path = Path.Combine(
+            // Load the OUI and UUID database on initialization
+            string pathUuid = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
             "Resources",
             "bluetooth-16-bit-uuids-2022-05-19.csv"
             );
 
-            _bluetoothUuidService.LoadBluetoothUuidDatabase(path);
+            string pathOui = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "Resources",
+            "oui.csv"
+            );
+
+            _bluetoothUuidService.LoadBluetoothUuidDatabase(pathUuid);
+            _ouiDb.LoadDatabaseCSV(pathOui);
         }
 
         public void Start(ScanSpeedPreset speed, CancellationToken cancellationToken)

@@ -280,7 +280,7 @@
 
                     <DataGridTextColumn Header="{DynamicResource Net_Col_Vendor}"
                                         Binding="{Binding VendorDisplay}"
-                                        Width="180"
+                                        Width="170"
                                         ElementStyle="{StaticResource WrapTextStyle}"/>
 
                     <DataGridTextColumn Header="{DynamicResource Net_Col_Hostname}"
@@ -289,7 +289,7 @@
 
                     <DataGridTextColumn Header="{DynamicResource Net_Col_Ports}"
                                         Binding="{Binding OpenPortsDisplay}"
-                                        Width="125"/>
+                                        Width="145"/>
 
                     <DataGridTextColumn Header="{DynamicResource Net_Col_Banner}"
                                         Binding="{Binding Banner}"

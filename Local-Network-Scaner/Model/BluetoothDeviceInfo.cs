@@ -19,6 +19,7 @@ namespace Local_Network_Scanner.Model
         // relative quality level of a Bluetooth signal received on a device (in dBm)
         // closer to zero means a stronger signal
         public short Rssi { get; set; }
+        public string? Vendor {  get; set; }
 
         public DateTimeOffset Timestamp { get; set; }
         public string ServiceSummary { get; set; } = "";

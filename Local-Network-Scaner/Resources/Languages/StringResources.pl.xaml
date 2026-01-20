@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:String x:Key="App_Title">Skaner Sieci Lokalnej</sys:String>
-    <sys:String x:Key="App_Subtitle">Odkrywaj i analizuj swoją sieć</sys:String>
+    <sys:String x:Key="App_Subtitle">Skanuj i analizuj swoją sieć</sys:String>
 
     <sys:String x:Key="Menu_Title">Skaner Sieci Lokalnej</sys:String>
     <sys:String x:Key="Menu_Authors">Autorzy: Maksym Taran, Kacper Manterys, Grzegorz Ignasiak</sys:String>
@@ -28,7 +28,7 @@
     <sys:String x:Key="Bt_Stop">Zatrzymaj skanowanie</sys:String>
     <sys:String x:Key="Bt_Discovered">Wykryte Urządzenia</sys:String>
 
-    <sys:String x:Key="Bt_Col_Name">Nazwa Urządzenia</sys:String>
+    <sys:String x:Key="Bt_Col_Name">Nazwa</sys:String>
     <sys:String x:Key="Bt_Col_Mac">Adres MAC</sys:String>
     <sys:String x:Key="Bt_Col_Signal">Sygnał (RSSI)</sys:String>
     <sys:String x:Key="Bt_Col_Services">Usługi</sys:String>
