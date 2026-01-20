@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <cvrt:ScanSpeedConverter x:Key="ScanSpeedConverter"/>
         <cvrt:BoolConverter x:Key="BoolConverter"/>
+        <cvrt:InverseBoolConverter x:Key="InverseBoolConverter"/>
 
         <!-- Modern DataGrid Style -->
         <Style x:Key="ModernDataGrid" TargetType="DataGrid">
@@ -172,6 +173,7 @@
                                 Width="180"
                                 Height="40"
                                 Margin="0,0,10,0"
+                                IsEnabled="{Binding IsScanningForUI, Converter={StaticResource InverseBoolConverter}}"
                                 Command="{Binding ScanCommand}"/>
 
                         <Button Content="{DynamicResource Common_StopScan}"
