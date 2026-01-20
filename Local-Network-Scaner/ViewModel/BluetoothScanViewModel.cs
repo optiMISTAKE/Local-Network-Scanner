@@ -1,4 +1,5 @@
-﻿using Local_Network_Scanner.Model;
+﻿using Local_Network_Scanner.Interfaces;
+using Local_Network_Scanner.Model;
 using Local_Network_Scanner.Services;
 using Local_Network_Scanner.ViewModel.Base;
 using System;
@@ -13,7 +14,7 @@ using Windows.Devices.Radios;
 
 namespace Local_Network_Scanner.ViewModel
 {
-    public class BluetoothScanViewModel : ViewModelBase
+    public class BluetoothScanViewModel : ViewModelBase, ICleanup
     {
         // PRIVATE FIELDS
         private readonly NavigationService _navigationService;
@@ -44,6 +45,8 @@ namespace Local_Network_Scanner.ViewModel
                 }
             }
         }
+
+        public void Cleanup() => StopScan();
 
         // COMMANDS
 
@@ -104,7 +107,7 @@ namespace Local_Network_Scanner.ViewModel
             OnPropertyChanged(nameof(IsScanningForUI));
         }
 
-        private void StopScan()
+        public void StopScan()
         {
             _bluetoothScanCts?.Cancel();
             _bluetoothScanService.Stop();
@@ -114,33 +117,50 @@ namespace Local_Network_Scanner.ViewModel
 
         private void OnDeviceDiscovered(BluetoothDeviceInfo device)
         {
-            // Always marshal to UI thread because ObservableCollection
-            // is bound to the WPF UI
-            App.Current.Dispatcher.Invoke(() =>
+            var dispatcher = System.Windows.Application.Current?.Dispatcher;
+
+            if (dispatcher == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
             {
-                // Try to find an existing device by Bluetooth address
-                var existing = BluetoothDevices.FirstOrDefault(
-                    d => d.BluetoothAddress == device.BluetoothAddress);
+                return;
+            }
 
-                if (existing == null)
+            try
+            {
+                // Always marshal to UI thread because ObservableCollection
+                // is bound to the WPF UI
+                dispatcher.Invoke(() =>
                 {
-                    // New device → add it to the list
-                    BluetoothDevices.Add(device);
-                }
-                else
-                {
-                    // Existing device → update dynamic fields
-                    existing.Rssi = device.Rssi;
-                    existing.ServiceSummary = device.ServiceSummary;
-                    existing.Timestamp = device.Timestamp;
+                    // Try to find an existing device by Bluetooth address
+                    var existing = BluetoothDevices.FirstOrDefault(
+                        d => d.BluetoothAddress == device.BluetoothAddress);
 
-                    // Optional: update name if it appears later
-                    if (!string.IsNullOrWhiteSpace(device.LocalName))
+                    if (existing == null)
                     {
-                        existing.LocalName = device.LocalName;
+                        // New device → add it to the list
+                        BluetoothDevices.Add(device);
                     }
-                }
-            });
+                    else
+                    {
+                        // Existing device → update dynamic fields
+                        existing.Rssi = device.Rssi;
+                        existing.ServiceSummary = device.ServiceSummary;
+                        existing.Timestamp = device.Timestamp;
+
+                        // Optional: update name if it appears later
+                        if (!string.IsNullOrWhiteSpace(device.LocalName))
+                        {
+                            existing.LocalName = device.LocalName;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                // Catching specific exceptions like TaskCanceledException is good, 
+                // but during shutdown, a general catch is a safe "last resort" 
+                // to prevent the process from terminating abruptly.
+                Debug.WriteLine($"Suppressed shutdown crash: {ex.Message}");
+            }
         }
 
     }

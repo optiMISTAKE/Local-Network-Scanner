@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Local_Network_Scanner.Interfaces;
+using Local_Network_Scanner.Model;
 using Local_Network_Scanner.Services;
 using Local_Network_Scanner.ViewModel.Base;
-using Local_Network_Scanner.Model;
-using System.Windows.Input;
-using System.Net;
-using System.Xml.Linq;
-using System.Windows;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace Local_Network_Scanner.ViewModel
 {
-    public class MainScanViewModel : ViewModelBase
+    public class MainScanViewModel : ViewModelBase, ICleanup
     {
         // PRIVATE FIELDS
 
@@ -89,6 +90,7 @@ namespace Local_Network_Scanner.ViewModel
             }
         }
 
+        public void Cleanup() => StopScan();
 
         // COMMANDS
 

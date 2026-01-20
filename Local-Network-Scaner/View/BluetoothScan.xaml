@@ -334,6 +334,20 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
+                            <GridViewColumn Header="{DynamicResource Net_Col_Vendor}" 
+                                            Width="170">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Vendor}"
+                                                   FontFamily="{DynamicResource MainFont}"
+                                                   FontSize="{DynamicResource BaseFontSize}"
+                                                   Foreground="{StaticResource Text800}"
+                                                   TextWrapping="Wrap"
+                                                   Padding="0,4"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
                             <GridViewColumn Header="{DynamicResource Bt_Col_Signal}" 
                                             Width="145">
                                 <GridViewColumn.CellTemplate>

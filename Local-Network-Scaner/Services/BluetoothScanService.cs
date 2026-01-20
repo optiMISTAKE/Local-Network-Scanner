@@ -87,6 +87,16 @@ namespace Local_Network_Scanner.Services
             if (_cts?.Token.IsCancellationRequested == true) return;
 
             var deviceInfo = BluetoothDeviceInfo.FromAdvertisement(args, _bluetoothUuidService);
+
+            string macAddressHex = args.BluetoothAddress.ToString("X12");
+
+            var ouiRecord = _ouiDb.GetVendor(macAddressHex);
+            if (ouiRecord != null)
+            {
+                // Assign the vendor to the model
+                deviceInfo.Vendor = ouiRecord.Vendor;
+            }
+
             DeviceFound?.Invoke(deviceInfo);
         }
 
