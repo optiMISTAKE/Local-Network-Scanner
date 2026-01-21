@@ -158,10 +158,16 @@ namespace Local_Network_Scanner.ViewModel
             _viewModelFactory = viewModelFactory;
 
             NavigateToBluetoothScanningCommand = new RelayCommand(_ =>
-            _navigationService.NavigateTo(_viewModelFactory.CreateBluetoothScanVM()), _ => true);
+            {
+                Cleanup();
+                _navigationService.NavigateTo(_viewModelFactory.CreateBluetoothScanVM());
+            }, _ => true);
 
             NavigateToMainMenuCommand = new RelayCommand(_ =>
-            _navigationService.NavigateTo(_viewModelFactory.CreateMainMenuVM()), _ => true);
+            {
+                Cleanup();
+                _navigationService.NavigateTo(_viewModelFactory.CreateMainMenuVM());
+            }, _ => true);
 
             LoadNetworkInterfaces();
         }

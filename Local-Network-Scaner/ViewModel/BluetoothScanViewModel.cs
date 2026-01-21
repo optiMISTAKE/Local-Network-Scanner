@@ -60,7 +60,10 @@ namespace Local_Network_Scanner.ViewModel
             _viewModelFactory = viewModelFactory;
 
             NavigateToMainMenuCommand = new RelayCommand(_ =>
-            _navigationService.NavigateTo(_viewModelFactory.CreateMainMenuVM()), _ => true);
+            {
+                Cleanup();
+                _navigationService.NavigateTo(_viewModelFactory.CreateMainMenuVM());
+            }, _ => true);
 
             // TO-DO : Initialize BluetoothScanService, start scanning, and handle device discovery events
             _bluetoothScanService = new BluetoothScanService();

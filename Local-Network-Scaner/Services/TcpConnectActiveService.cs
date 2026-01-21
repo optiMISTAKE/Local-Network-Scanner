@@ -42,46 +42,57 @@ namespace Local_Network_Scanner.Services
         public async Task<ScanResult> ProbeTcpPort(string ipAddress, int port, int timeout, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            using var tcpClient = new TcpClient();
-            var connectTask = tcpClient.ConnectAsync(ipAddress, port);
-            var delayTask = Task.Delay(timeout);
 
-            var completedTask = await Task.WhenAny(connectTask, delayTask);
-
-            if (completedTask == connectTask)
+            try
             {
-                try
+                using var tcpClient = new TcpClient();
+
+                tcpClient.LingerState = new LingerOption(true, 0);
+
+                var connectTask = tcpClient.ConnectAsync(ipAddress, port);
+                var delayTask = Task.Delay(timeout);
+
+                var completedTask = await Task.WhenAny(connectTask, delayTask);
+
+                if (completedTask == connectTask)
                 {
                     await connectTask; // Ensure any exceptions are observed
                     // At this point, the connection was successful
-
                     try
                     {
-                        tcpClient.Close();
+                            tcpClient.Close();
                     }
                     catch { }
                     return new ScanResult(port, ScanStatus.Open, "Open");
+                    
                 }
-                catch (SocketException sockEx)
+                else // Timeout occurred
                 {
-                    // Connection attempt failed with a socket error (SocketErrorCode 10061 is "Connection Refused")
-                    if (sockEx.SocketErrorCode == SocketError.ConnectionRefused)
-                    {
-                        return new ScanResult(port, ScanStatus.Closed, "Refused");
-                    }
-                    // Other errors might be network unreachable, etc. Treat as Timeout/Error
-                    return new ScanResult(port, ScanStatus.Timeout, $"Error: {sockEx.Message}");
-                }
-                catch (Exception ex)
-                {
-                    // Connection attempt failed
-                    return new ScanResult(port, ScanStatus.Timeout, $"Error: {ex.Message}");
+                    try { tcpClient.Close(); } catch { }
+                    return new ScanResult(port, ScanStatus.Timeout, "Timed out");
                 }
             }
-            else // Timeout occurred
+            catch (SocketException sockEx)
             {
-                try { tcpClient.Close(); } catch { }
-                return new ScanResult(port, ScanStatus.Timeout, "Timed out");
+                // Connection attempt failed with a socket error (SocketErrorCode 10061 is "Connection Refused")
+                if (sockEx.SocketErrorCode == SocketError.ConnectionRefused)
+                {
+                    return new ScanResult(port, ScanStatus.Closed, "Refused");
+                }
+                // Check for "No Buffer Space"
+                // treating it as a Timeout/Skip allows the scan to continue without crashing.
+                if (sockEx.SocketErrorCode == SocketError.NoBufferSpaceAvailable)
+                {
+                    return new ScanResult(port, ScanStatus.Timeout, "Skipped (Socket Resource Exhaustion)");
+                }
+
+                // Other errors might be network unreachable, etc. Treat as Timeout/Error
+                return new ScanResult(port, ScanStatus.Timeout, $"Error: {sockEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Connection attempt failed
+                return new ScanResult(port, ScanStatus.Timeout, $"Error: {ex.Message}");
             }
         }
     }
